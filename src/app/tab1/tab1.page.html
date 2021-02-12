@@ -1,0 +1,89 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Formulario
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+
+    <ion-item (click)="nfcScan($event)">
+      <ion-icon name="barcode-outline" slot="start"></ion-icon>
+      <ion-card-title>Leer tag NFC</ion-card-title>
+    </ion-item>
+    <ion-progress-bar type="indeterminate" *ngIf="this.isScanning"></ion-progress-bar>
+
+  </ion-card>
+
+  <ion-card>
+    <ion-item>
+      <ion-icon name="car-outline" slot="start"></ion-icon>
+      <ion-card-title>Matriculas  de coches</ion-card-title>
+    </ion-item>
+    <ion-card-header>
+      <ion-select [(ngModel)]="this.formulario.vehiculo">
+        <ion-select-option *ngFor="let matricula of matriculas" [value]="matricula"> {{matricula}} </ion-select-option>
+      </ion-select>
+    </ion-card-header>
+    <ion-footer *ngIf="!descargaHecha" class="ion-text-center" (click)="descarga()">
+      <div>Haga click para descargar las matrículas</div>
+    </ion-footer>
+  </ion-card>
+
+  <ion-card>
+    <ion-item>
+      <ion-icon name="barbell-outline" slot="start"></ion-icon>
+      <ion-card-title>Tomar peso del vehículo</ion-card-title>
+    </ion-item>
+    <ion-card-header>
+      <ion-select [ngModel]="formulario.bascula" (ngModelChange) ="nuevaBascula($event)">
+        <ion-select-option *ngFor="let bascula of this.basculas" [value]="bascula.nombre"> {{bascula.nombre}} </ion-select-option>
+      </ion-select>
+    </ion-card-header>
+    <ion-item *ngIf="basculaElegida.expandir">
+      <ion-card-header>
+        <ion-label position="floating">Introduzca el peso: (en toneladas)</ion-label>
+        <ion-input [(ngModel)]="this.formulario.peso" inputmode="numeric"></ion-input>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+
+  <ion-card>
+
+    <ion-item>
+      <ion-icon name="body-outline" slot="start"></ion-icon>
+      <ion-card-title>Tipo de acción</ion-card-title>
+    </ion-item>
+    <ion-card-header>
+      <ion-select [(ngModel)]="formulario.accion">
+        <ion-select-option value="Reemplazo de contenedor"> Reemplazo de contenedor </ion-select-option>
+        <ion-select-option value="Cargo con pulpo"> Cargo con pulpo </ion-select-option>
+        <ion-select-option value="Vehiculo cargado"> Vehiculo cargado </ion-select-option>
+      </ion-select>
+    </ion-card-header>
+
+  </ion-card>
+
+  <ion-card>
+
+    <ion-item (click)="nuevaFoto()">
+      <ion-icon name="camera-outline"></ion-icon>
+      <ion-card-title>Tomar una foto</ion-card-title>
+    </ion-item>
+
+    <ion-img *ngIf="hayFoto" [src]="photo.webPath"></ion-img>
+    <ion-button *ngIf="hayFoto" expand="block" color="danger" (click)="borrarFoto()">Borrar foto</ion-button>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <ion-card>
+    <ion-button color="tertiary" expand="block" (click)="enviarFormulario()">
+      Enviar Formulario
+    </ion-button>
+  </ion-card>
+</ion-footer>

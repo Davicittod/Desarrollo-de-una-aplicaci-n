@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Bienvenido {{this.actualUser.nombre}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content fullscreen>
+  
+  <ion-card *ngIf="isNewUser">
+    <ion-item>
+      <ion-label position="floating">Nombre del usuario: </ion-label>
+      <ion-textarea [(ngModel)]="newUser.nombre"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Introduzca su peso: (en kg)</ion-label>
+      <ion-textarea [(ngModel)]="newUser.peso"></ion-textarea>
+    </ion-item>
+
+    <ion-card-content>
+      <ion-label>
+        <ion-button slot="start" (click)="guardarNuevoUsuario()">Guardar</ion-button>
+        <ion-button color="danger" slot="end" (click)="cancelarNuevoUsuario()">Cancelar</ion-button>
+      </ion-label>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Usuario seleccionado:</ion-card-title>  
+    </ion-card-header>
+    <ion-select [ngModel]="actualUser.nombre" (ngModelChange) ="usuarioActual($event)">
+      <ion-select-option *ngFor="let user of this.users" [value]="user.nombre"> {{user.nombre}} </ion-select-option>
+    </ion-select>
+  </ion-card>
+
+  <ion-card>
+    <ion-item>
+      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+      <ion-label>
+        <p>Nombre: {{actualUser.nombre}} </p>
+        <p>Peso: {{actualUser.peso}} kg </p>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+  
+</ion-content>
+
+<ion-footer>
+
+  <ion-card *ngIf="!isNewUser">
+    <ion-item (click)="nuevoUsuario()">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+      <ion-label>Añadir usuario</ion-label>
+    </ion-item>
+  </ion-card>
+
+</ion-footer>

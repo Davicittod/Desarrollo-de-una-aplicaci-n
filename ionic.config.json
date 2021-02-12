@@ -1,0 +1,7 @@
+{
+  "name": "ProyectoTfg",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
