@@ -234,6 +234,21 @@ export class Tab2Page {
     }, (dispositivo) => {
       this.ngZone.run( () => {  
         this.devicesStored[index].isConnected = false;
+        if(this.isLeftNotification || this.isRightNotification) {
+          let date = new Date();
+          let csv = this.papa.unparse({
+            fields: this.infoCsv,
+            data: this.guardarInfo
+                });
+          let text = JSON.stringify(date).slice(1,-9).replace(":","").replace(/-/g,'').replace('T','_');
+          if(this.platform.is('cordova')) {
+            this.file.writeFile(this.file.externalApplicationStorageDirectory, 
+            this.currentUser.nombre + '_' + text + '.csv', csv, {replace: true}). then( (res) => {
+            console.log("Guardado: " + JSON.stringify(res));
+            });
+          }
+          alert("Se ha detenido la sesión de notificaciones, conecte el dispositivo de nuevo y active las notificaciones de nuevo");
+        }
       });
       if(device.isLeft) {
         this.leftCache = null;
@@ -613,11 +628,18 @@ export class Tab2Page {
 
   //Testing
   alertState() {
-    console.log("Derecho", this.rightCache);
-    this.ble.read(this.rightCache.id, '180F','2A19').then((result)=> {
-      console.log(result);
+    this.ble.read(this.rightCache.id, '180F', '2A19').then((result) => {
+      console.log("Derecho", result);
+      let data = decoder.decode(result).charCodeAt(0);
+      console.log("Derecho", data);
+    });
+    this.ble.read(this.leftCache.id, '180F', '2A19').then((result) => {
+      console.log("Izquierdo", result);
+      let data = decoder.decode(result).charCodeAt(0);
+      console.log("Izquierdo", data);        
     });
   }
+
 }
 
 export interface Insole {

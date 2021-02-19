@@ -57,11 +57,6 @@
         </ion-item-sliding>
         <ion-list-header>
           <ion-button *ngIf="!isCalibrating" expand="block" (click)="calibrar()">Calibrar plantillas</ion-button>
-          <ion-item *ngIf="isCalibrating">
-            <ion-card-header>Calibrando</ion-card-header>
-          </ion-item>
-          <ion-progress-bar *ngIf="isCalibrating" type="indeterminate"></ion-progress-bar>
-        </ion-list-header>
       </ion-list>
     </ion-item>
 
@@ -84,10 +79,9 @@
 </ion-content>
 
 <ion-footer>
-  <ion-item>  
-    <ion-progress-bar *ngIf="isCalibrating" type="indeterminate"></ion-progress-bar>
-    <ion-button (click)="alertState()"> Carga </ion-button>
-    <ion-button *ngIf="!isLeftNotification && !isRightNotification" (click)="activarNotificaciones()">Activar notificaciones</ion-button>
-    <ion-button *ngIf="isLeftNotification || isRightNotification" (click)="desactivarNotificaciones()">Desactivar notificaciones</ion-button>
+  <ion-progress-bar *ngIf="isCalibrating" type="indeterminate"></ion-progress-bar>
+  <ion-item *ngIf="leftCache && rightCache">  
+    <ion-button *ngIf="!isLeftNotification && !isRightNotification" expand="block" (click)="activarNotificaciones()">Activar notificaciones</ion-button>
+    <ion-button *ngIf="isLeftNotification || isRightNotification" expand="block" (click)="desactivarNotificaciones()">Desactivar notificaciones</ion-button>
   </ion-item>
 </ion-footer>
